@@ -20,7 +20,7 @@ So whether you’ve got a fancy robot arm or just two webcams taped to your desk
 
 <img src="img/solutionBad.png" width="300">
 
-In this image is a bad calibration result by the way. Stick around—we're about to calibrate some eyes and fix this image!
+In this image, you can see a bad calibration result by the way. Stick around—we're about to calibrate some eyes and fix this image!
 
 ## Case 1: Moving Camera, Static Target
 <img src="img/solution.png" width="300">
@@ -75,7 +75,7 @@ And with that, we are ready to start optimizing. This will hopefully yield the r
 As promise,d the approach for the translation $`\mathbf{t}_\text{C}`$ will be pretty similar, so I will try to keep things short. Starting with the initial expression
 $`\mathbf{t}_\text{T} = \mathbf{t}_\text{TCP}(t) + \mathbf{R}_\text{TCP}(t) \mathbf{t}_\text{C} + \mathbf{R}_\text{TCP}(t) \mathbf{R}_\text{C} \mathbf{t}_\text{M}(t)`$, we want to minimize its variance. The rotation $`\mathbf{R}_\text{C}`$ now has been identified and only $`\mathbf{t}_\text{C}`$ and $`\mathbf{t}_\text{T}`$ remain unknown. Luckily translations are linear, so by defining $`\mathbf{A}_t := \mathbf{R}_\text{TCP}(t)`$ and $`\mathbf{b}_t := -\mathbf{t}_\text{TCP}(t) - \mathbf{R}_\text{TCP}(t) \mathbf{R}_\text{C} \mathbf{t}_\text{M}(t)`$ we get the residual
 ```math
-\begin{bmatrix} \mathbf{A}_1 & -\bm{I} \\\ \vdots & \vdots \\\ \mathbf{A}_n & -\bm{I} \end{bmatrix} \begin{bmatrix} \mathbf{t}_\text{C} \\\ \mathbf{t}_\text{T} \end{bmatrix} - \begin{bmatrix} \mathbf{b}_1 \\\ \vdots \\\ \mathbf{b}_n \end{bmatrix}=:\mathbf{A}\mathbf{x}-\mathbf{b}
+\begin{bmatrix} \mathbf{A}_1 & -\mathbf{I} \\\ \vdots & \vdots \\\ \mathbf{A}_n & -\mathbf{I} \end{bmatrix} \begin{bmatrix} \mathbf{t}_\text{C} \\\ \mathbf{t}_\text{T} \end{bmatrix} - \begin{bmatrix} \mathbf{b}_1 \\\ \vdots \\\ \mathbf{b}_n \end{bmatrix}=:\mathbf{A}\mathbf{x}-\mathbf{b}
 ```
 And as we want to minimize the variance, our residual becomes
 ```math
@@ -187,7 +187,7 @@ or in matrix form
 ```
 Instead of minimizing the distance of this expression to an additional optimization variable, as we merely want to minimize this expression's variance, we can take a different approach using the so-called centering matrix
 ```math
-\mathbf{H}:= \begin{bmatrix} \frac{n-1}{n}\mathbf{I} & \dots &  \frac{-1}{n}\mathbf{I}\\\ \vdots & \ddots & \vdots \\\ \frac{-1}{n}\mathbf{I} & \dots &  \frac{n-1}{n}\mathbf{I} \end{bmatrix} = \mathbf{I}_{3n} - \frac{1}{n} \bm{1}\bm{1}^\text{T} \otimes \mathbf{I}_{3}
+\mathbf{H}:= \begin{bmatrix} \frac{n-1}{n}\mathbf{I} & \dots &  \frac{-1}{n}\mathbf{I}\\\ \vdots & \ddots & \vdots \\\ \frac{-1}{n}\mathbf{I} & \dots &  \frac{n-1}{n}\mathbf{I} \end{bmatrix} = \mathbf{I}_{3n} - \frac{1}{n} \mathbf{1}\mathbf{1}^\text{T} \otimes \mathbf{I}_{3}
 ```
 with Krockecker product.
 The left multiplication with this special matrix effectively centers the data in a block-wise fashion
@@ -201,7 +201,7 @@ by shifting everything by the mean over all the time steps
 One question one might ask is whether this approach gives a similar result vs. the approach taken before. The answer is YES! In fact, the two (or three approaches, depending on whether you count the explicit subtraction of the mean separately) approaches are equivalent. In the following, I want to motivate why.
 Remember that
 ```math
-\begin{bmatrix} \mathbf{A}_1 & -\bm{I} \\\ \vdots & \vdots \\\ \mathbf{A}_n & -\bm{I} \end{bmatrix} \begin{bmatrix} \mathbf{t}_\text{C} \\\ \mathbf{t}_\text{T} \end{bmatrix} - \begin{bmatrix} \mathbf{b}_1 \\\ \vdots \\\ \mathbf{b}_n \end{bmatrix}=:\mathbf{A}\mathbf{x}-\mathbf{b}
+\begin{bmatrix} \mathbf{A}_1 & -\mathbf{I} \\\ \vdots & \vdots \\\ \mathbf{A}_n & -\mathbf{I} \end{bmatrix} \begin{bmatrix} \mathbf{t}_\text{C} \\\ \mathbf{t}_\text{T} \end{bmatrix} - \begin{bmatrix} \mathbf{b}_1 \\\ \vdots \\\ \mathbf{b}_n \end{bmatrix}=:\mathbf{A}\mathbf{x}-\mathbf{b}
 ```
 and
 ```math
